@@ -18,3 +18,22 @@ shell> vi /etc/profile.d/java.sh
 # 3. 载入环境
 shell> . /etc/profile.d/java.sh
 ```
+
+## Jar 运行
+
+```shell
+# 锁定当前窗口运行(关闭窗口，CTRL + C 中断)
+shell> java -jar XXX.jar
+
+# 不锁定窗口运行(&表示后台运行，关闭窗口中断)
+shell> java -jar XXX.jar &
+
+# 后台运行，输出重定向(默认输出到 nohup.txt)
+shell> nohup java -jar XXX.jar &
+
+# 后台运行，输出重定向到指定文件
+shell> nohup java -jar XXX.jar > log.txt 2>&1 &
+
+# 后台运行，输出重定向到回收站
+shell> nohup java -jar XXX.jar > /dev/null 2>&1 &
+```
