@@ -178,7 +178,6 @@ public class WhiteFilter implements Filter {
 ​	使用 **@EnableOAuth2Sso** 时，引入 **OAuth2** 的配置。**Bean** **oauth2ClientContext** 在 **OAuth2ClientConfiguration** 中定义如下:
 
 ```java
-
 package org.springframework.security.oauth2.config.annotation.web.configuration;
 ...
 @Configuration
@@ -255,8 +254,94 @@ public RequestContextFilter requestContextFilter() {
 
 ------
 
+#### spring security post 403 (2019-08-29)
+
+**Bug :**
+
+```json
+{
+    "timestamp": "2019-08-29T07:31:02.500+0000",
+    "status": 403,
+    "error": "Forbidden",
+    "message": "Forbidden",
+    "path": "/post"
+}
+
+```
+
+**Cause :**
+
+​	**Spring Security** 默认开启 **CSRF** 保护，所以除了 **GET** 方法之外，其它的请求都需要携带 **CSRF Token** [[3]](<https://spring.io/blog/2013/08/21/spring-security-3-2-0-rc1-highlights-csrf-protection/>)。
+
+**Resolve :**
+
+​	1. 关闭 **CSRF** 保护
+
+```java
+@EnableWebSecurity
+@Configuration
+public class WebSecurityConfig extends
+   WebSecurityConfigurerAdapter {
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http
+      .csrf().disable()
+      ...;
+  }
+}
+
+```
+
+​	2. 使用除 **GET** 之外的请求，携带 **CSRF Token**
+
+**Thymeleaf** 表单 :
+
+```html
+<c:url var="logoutUrl" value="/logout"/>
+<form action="${logoutUrl}"
+    method="post">
+  <input type="submit"
+    value="Log out" />
+  <input type="hidden"
+    name="${_csrf.parameterName}"
+    value="${_csrf.token}"/>
+</form>
+
+```
+
+**Ajax** 请求 :
+
+```html
+<html>
+  <head>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    ...
+  </head>
+  ...
+</html>
+
+```
+
+```js
+$(function () {
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
+});
+
+```
+
+------
+
 ## 参考
 
-\[1\]  [使用 fastjson 时， spring security oauth2 获取 token 格式变化 @FelixFly](<https://github.com/alibaba/fastjson/issues/1640>)
+[1\]  [使用 fastjson 时， spring security oauth2 获取 token 格式变化 @FelixFly](<https://github.com/alibaba/fastjson/issues/1640>)
 
-\[2\]  [Scope 'session' is not active for the current thread; IllegalStateException: No thread-bound request found @Jon、@Martin Strejc](<https://stackoverflow.com/questions/21286675/scope-session-is-not-active-for-the-current-thread-illegalstateexception-no>)
+[2\]  [Scope 'session' is not active for the current thread; IllegalStateException: No thread-bound request found @Jon、@Martin Strejc](<https://stackoverflow.com/questions/21286675/scope-session-is-not-active-for-the-current-thread-illegalstateexception-no>)
+
+[3\]  [Spring Security 3.2.0.RC1 Highlights: CSRF Protection](<https://spring.io/blog/2013/08/21/spring-security-3-2-0-rc1-highlights-csrf-protection/>)
