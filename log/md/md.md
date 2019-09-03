@@ -85,7 +85,6 @@ public interface OAuth2AccessToken {
 	public static String SCOPE = "scope";
 ...
 }
-
 ```
 
 **Resolve :**
@@ -228,7 +227,6 @@ public class WebMvcAutoConfiguration {
         ...
     }
 }
-
 ```
 
 ​	如源码注释所述，应用中为了使用 **fastjson** 替换 **jackson**，确实定义了一个继承 **WebMvcConfigurationSupport** **Configuration** 以添加 **fastjson** 的 **HttpMessageConverter**。也就是说，现在并不支持 **session** 等 **http** 相关 **scope** **Bean** 的创建。
@@ -254,7 +252,7 @@ public RequestContextFilter requestContextFilter() {
 
 ------
 
-#### spring security post 403 (2019-08-29)
+#### Spring Security POST 403 (2019-08-29)
 
 **Bug :**
 
@@ -266,7 +264,6 @@ public RequestContextFilter requestContextFilter() {
     "message": "Forbidden",
     "path": "/post"
 }
-
 ```
 
 **Cause :**
@@ -290,7 +287,6 @@ public class WebSecurityConfig extends
       ...;
   }
 }
-
 ```
 
 ​	2. 使用除 **GET** 之外的请求，携带 **CSRF Token**
@@ -307,7 +303,6 @@ public class WebSecurityConfig extends
     name="${_csrf.parameterName}"
     value="${_csrf.token}"/>
 </form>
-
 ```
 
 **Ajax** 请求 :
@@ -322,7 +317,6 @@ public class WebSecurityConfig extends
   </head>
   ...
 </html>
-
 ```
 
 ```js
@@ -333,7 +327,60 @@ $(function () {
         xhr.setRequestHeader(header, token);
     });
 });
+```
 
+------
+
+### 09
+
+------
+
+#### 未认证 Ajax 302 (2019-09-03)
+
+**Bug :**
+
+​	前端未认证调用接口，页面不跳转到登录页。
+
+**Cause :**
+
+​	**Ajxa** 请求 **application/json** 资源，返回 **302** 。浏览器处理最终返回 **200** **text/html** 登录页。**Ajax** 无法处理。	
+
+**Resolve :**
+
+​	在未认证的前提下请求受保护资源，返回 **200** ，并提供 表示跳转 的 自定义状态码，以及即将要跳转的 **url**。
+
+```java
+// OAuth2 客户端代码
+@Configuration
+@EnableOAuth2Sso
+@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            	.requestMatchers()
+            		.antMatchers("/**")
+            		.and()
+            	.authorizeRequests()
+            		.anyRequest().authenticated()
+            		.and()
+            	.exceptionHandling()
+            		.authenticationEntryPoint(new UnauthorizedEntryPoint());
+    }
+    
+    private class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
+        @Override
+        public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+            ObjectNode ret = new ObjectMapper().createObjectNode();
+            ret.put("code", 302);
+            ret.put("msg", "redirect");
+            ret.put("url", "http://localhost:8080/login");
+            
+            httpServletResponse.setStatus(HttpStatus.OK.value());
+            httpServletResponse.getWriter().print(ret);
+        }
+    }
+}
 ```
 
 ------
