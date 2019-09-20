@@ -1,6 +1,6 @@
 # MySQL Map
 
-## yum安装
+## yum 安装
 
 ```shell
 # 1. 进入 /etc/yum.repos.d 目录
@@ -22,7 +22,7 @@ shell> yum install -y mysql-community-server
 shell> systemctl enable mysqld
 ```
 
-## tar安装
+## tar 安装
 
 ```shell
 # 1. 添加用户组
