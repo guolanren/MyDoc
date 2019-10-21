@@ -5,6 +5,12 @@
 ## 添加 sudo 用户
 
 ```shell
+# 新增用户
+shell> useradd username
+
+# 设置密码
+shell> passwd password
+
 # 编辑 /etc/sudoers
 shell> vim /etc/sudoers
 	...
