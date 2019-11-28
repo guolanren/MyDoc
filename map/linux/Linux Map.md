@@ -9,7 +9,7 @@
 shell> useradd username
 
 # 设置密码
-shell> passwd password
+shell> passwd username
 
 # 编辑 /etc/sudoers
 shell> vim /etc/sudoers
