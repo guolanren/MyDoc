@@ -25,3 +25,19 @@ shell> make && make PREFIX=/opt/redis/redis-5.0.5 install
 shell> cp /opt/redis/redis-5.0.5/source/utils/redis_init_script /etc/init.d/redis
 shell> chkconfig --add redis
 ```
+
+## Redis 复制
+
+```shell
+# 1. 复制配置
+shell> cp /opt/redis/redis-5.0.5/conf/redis.conf /opt/redis/redis-5.0.5/conf/redis-slave.conf
+# 2. 修改 slave 配置
+shell> vi redis-slave.conf
+	port 6380
+	pidfile /var/run/redis_6380.pid
+	logfile "/var/log/redis/redis-slave.log"
+	dir /var/redis/slave
+	replicaof 172.17.0.17 6379
+	masterauth ***
+```
+
