@@ -28,7 +28,7 @@ shell> chkconfig --add redis
 
 ------
 
-## Redis 复制
+## copy
 
 ```shell
 # 1. 复制配置
