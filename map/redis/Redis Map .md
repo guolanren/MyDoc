@@ -26,6 +26,8 @@ shell> cp /opt/redis/redis-5.0.5/source/utils/redis_init_script /etc/init.d/redi
 shell> chkconfig --add redis
 ```
 
+------
+
 ## Redis 复制
 
 ```shell
@@ -40,4 +42,3 @@ shell> vi redis-slave.conf
 	replicaof 172.17.0.17 6379
 	masterauth ***
 ```
-
