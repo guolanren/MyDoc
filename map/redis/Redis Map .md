@@ -2,7 +2,7 @@
 
 ------
 
-## Redis 安装
+## Install
 
 ```shell
 # 1. 创建目录
@@ -41,4 +41,21 @@ shell> vi redis-slave.conf
 	dir /var/redis/slave
 	replicaof 172.17.0.17 6379
 	masterauth ***
+```
+------
+
+## Sentinel
+
+```shell
+# 1. 复制 sentinel 配置文件
+shell> cp /opt/redis/redis-5.0.5/source/sentinel.conf /opt/redis/redis-5.0.5/conf
+# 2. 修改配置文件
+shell> vi sentinel.conf
+	daemonize yes
+	pidfile "/var/run/redis-sentinel.pid"
+	logfile "/var/log/redis/sentinel.log"
+	sentinel monitor mymaster 172.17.0.17 6379 2
+	sentinel auth-pass mymaster ****
+# 3. 启动 sentinel
+shell> /opt/redis/redis-5.0.5/bin/redis-server /opt/redis/redis-5.0.5/conf/sentinel.conf --sentinel
 ```
