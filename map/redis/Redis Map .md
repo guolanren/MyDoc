@@ -59,3 +59,22 @@ shell> vi sentinel.conf
 # 3. 启动 sentinel
 shell> /opt/redis/redis-5.0.5/bin/redis-server /opt/redis/redis-5.0.5/conf/sentinel.conf --sentinel
 ```
+
+------
+
+## Cluster
+
+```shell
+# 1. 复制配置
+shell> cp /opt/redis/redis-5.0.5/conf/redis.conf /opt/redis/redis-5.0.5/conf/redis-cluster.conf
+# 2. 修改 cluster 配置
+shell> vi redis-cluster.conf
+	port 6379
+	pidfile /var/run/redis_6379.pid
+	logfile "/var/log/redis/redis-6379.log"
+	dir /var/redis
+	cluster-enabled yes
+	cluster-config-file nodes-6379.conf
+	cluster-node-timeout 10000
+```
+
