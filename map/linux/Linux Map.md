@@ -2,7 +2,7 @@
 
 ------
 
-## 添加 sudo 用户
+## Add Sudo User
 
 ```shell
 # 新增用户

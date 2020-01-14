@@ -1,4 +1,4 @@
-# Hdfs Map
+# HDFS Map
 
 ------
 

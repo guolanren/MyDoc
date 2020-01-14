@@ -2,7 +2,7 @@
 
 ------
 
-## CentOS 安装
+## Install
 
 ```shell
 # 1. 检查 linux 内核版本

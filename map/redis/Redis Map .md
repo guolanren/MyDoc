@@ -77,4 +77,3 @@ shell> vi redis-cluster.conf
 	cluster-config-file nodes-6379.conf
 	cluster-node-timeout 10000
 ```
-

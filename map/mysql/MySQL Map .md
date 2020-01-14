@@ -1,6 +1,8 @@
 # MySQL Map
 
-## yum 安装
+------
+
+## Yum Install
 
 ```shell
 # 1. 进入 /etc/yum.repos.d 目录
@@ -22,7 +24,9 @@ shell> yum install -y mysql-community-server
 shell> systemctl enable mysqld
 ```
 
-## tar 安装
+------
+
+## Tar Install
 
 ```shell
 # 1. 添加用户组
@@ -81,7 +85,9 @@ shell> chkconfig --add mysql.server
 mysql> set password = 'newpassword';
 ```
 
-## 初始密码（重置密码）
+------
+
+## Init Password（Reset Password）
 
 ```shell
 # 1. 修改 /etc/my.cnf
@@ -110,7 +116,9 @@ shell> vi /etc/my.cnd
 shell> systemctl restart mariadb
 ```
 
-## 创建用户（授权用户）
+------
+
+## Create User（Authority User）
 
 ```mysql
 # 创建用户

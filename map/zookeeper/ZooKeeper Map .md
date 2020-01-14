@@ -2,7 +2,7 @@
 
 ------
 
-## 安装
+## Install
 
 ```shell
 # 1. 下载zookeeper-3.4.12.tar.gz

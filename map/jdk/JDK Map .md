@@ -1,6 +1,8 @@
 # JDK Map
 
-## JDK 安装
+------
+
+## Install
 
 ```shell
 # 1. 解压jdk-{version}-linux-x64.tar.gz
@@ -13,13 +15,15 @@ shell> vi /etc/profile.d/java.sh
 	#!/bin/bash
 	export JAVA_HOME=/usr/java/jdk1.8.0_221
 	export CLASS_PATH=.:${JAVA_HOME}/lib/dt.jar:${JAVA_HOME}/lib/tools.jar
-	export PATH=${JAVA_HOME}/bin:${PATH}
+	export PATH=${PATH}:${JAVA_HOME}/bin
 
 # 3. 载入环境
-shell> . /etc/profile.d/java.sh
+shell> source /etc/profile.d/java.sh
 ```
 
-## Jar 运行
+------
+
+## Run
 
 ```shell
 # 锁定当前窗口运行(关闭窗口，CTRL + C 中断)
