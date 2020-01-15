@@ -36,3 +36,21 @@ shell> vi /etc/profile.d/rabbitmq.sh
 # 6. 载入环境
 shell> source /etc/profile.d/rabbitmq.sh
 ```
+
+------
+
+## Ctl
+
+```shell
+# 添加用户
+shell> rabbitmqctl add_user Username Password
+# 修改密码
+shell> rabbitmqctl change_password Username Newpassword
+# 设置权限
+shell> rabbitmqctl set_permissions -p / Username ".*" ".*" ".*"
+# 设置角色（administractor）
+shell> rabbitmqctl set_user_tags Username Tag
+```
+
+
+
