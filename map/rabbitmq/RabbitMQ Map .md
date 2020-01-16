@@ -42,14 +42,72 @@ shell> source /etc/profile.d/rabbitmq.sh
 ## Ctl
 
 ```shell
+# 节点 #
+#
+# 启动节点
+shell> rabbitmqctl start_app
+# 关闭节点
+shell> rabbitmqctl stop_app
+# 节点状态
+shell> rabbitmqctl status
+
+# 用户 #
+#
 # 添加用户
-shell> rabbitmqctl add_user Username Password
+shell> rabbitmqctl add_user username password
+# 列出用户
+shell> rabbitmqctl list_users
+# 删除用户
+shell> rabbitmqctl delete_user username
 # 修改密码
-shell> rabbitmqctl change_password Username Newpassword
-# 设置权限
-shell> rabbitmqctl set_permissions -p / Username ".*" ".*" ".*"
+shell> rabbitmqctl change_password username newpassword
 # 设置角色（administractor）
-shell> rabbitmqctl set_user_tags Username Tag
+shell> rabbitmqctl set_user_tags username tag
+
+# 权限 #
+#
+# 设置权限
+shell> rabbitmqctl set_permissions -p vhostpath username ".*" ".*" ".*"
+# 列出权限
+shell> rabbitmqctl list_user_permissions username
+# 清除权限
+shell> rabbitmqctl clier_permissions -p vhostpath username
+
+# 虚拟主机 #
+#
+# 创建虚拟主机
+shell> rabbitmqctl add_vhost vhostpath
+# 列出虚拟主机
+shell> rabbitmqctl list_vhosts
+# 查看虚拟主机权限
+shell> rabbitmqctl list_permissions -p vhostpath
+# 删除虚拟主机
+shell> rabbitmqctl delete_vhost vhostpath
+
+# 队列 #
+#
+# 查看队列
+shell> rabbitmqctl list_queues
+# 清除队列消息
+shell> rabbitmqctl -p vhostpath purge_queue queuename
+
+# 集群 #
+#
+# 集群状态
+shell> rabbitmqctl cluster_status
+# 组成集群
+shell> rabbitmqctl join_cluster <clusternode> [--ram|--disc]
+# 修改集群存储形式
+shell> rabbitmqctl change_cluster_node_type [ram|disc]
+# 摘除节点
+shell> rabbitmqctl forget_cluster_node [--offline]
+# 修改节点名称
+shell> rabbitmqctl rename_cluster_node oldnode1 newnode1 [oldnode2 newnode2 ...]
+
+# 其他 #
+#
+# 移除所有数据（一般在 rabbitmqctl stop_app 之后使用）
+shell> rabbitmqctl reset
 ```
 
 
