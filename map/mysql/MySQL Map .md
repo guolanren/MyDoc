@@ -91,29 +91,31 @@ mysql> set password = 'newpassword';
 
 ```shell
 # 1. 修改 /etc/my.cnf
-shell> vi /etc/my.cnd
+shell> vi /etc/my.cnf
 	[mysqld]
 	# 添加此行，跳过验证
 	skip-grant-tables
 	
 # 2. 修改配置文件需重启
-shell> systemctl restart mariadb
+shell> systemctl restart mysqld
 
 # 3.免密连接mysql服务
-shell> mysql -r oot -p
+shell> mysql -u root -p
 ## 5.7 之前
 mysql> update user set password=password('newpassword') where user='root';
 ## 5.7 之后
 mysql> update mysql.user set authentication_string=password('newpassword') where user='root' and Host = 'localhost';
+mysql> alter user user() identified by 'newpassword';
+mysql> flush privileges;
 mysql> exit
 
 # 4. 注释，恢复原设置
-shell> vi /etc/my.cnd
+shell> vi /etc/my.cnf
 	[mysqld]
 	# skip-grant-tables
 
 # 5. 修改配置文件需重启
-shell> systemctl restart mariadb
+shell> systemctl restart mysqld
 ```
 
 ------
