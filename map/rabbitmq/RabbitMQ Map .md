@@ -8,7 +8,7 @@
 # 1. 解压 otp_src_{version}.tar.gz
 shell> mkdir /opt/erlang
 shell> cd /opt/erlang
-shell> tar -zx -f otp_src_{22.1}.tar.gz
+shell> tar -zx -f otp_src_22.1.tar.gz
 
 # 2. 编译安装
 shell> ./configure --prefix=/opt/erlang
