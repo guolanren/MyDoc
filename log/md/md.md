@@ -103,7 +103,7 @@ public class OAuthTokenSerializeFilter extends BeforeFilter implements PropertyP
             if (accessToken.getTokenType() != null) {
                 writeKeyValue("token_type", accessToken.getTokenType());
             }
-            if (accessToken.getRefreshToken() != null && accessToken.getRefreshToken().getValue != null) {
+            if (accessToken.getRefreshToken() != null && accessToken.getRefreshToken().getValue() != null) {
                 writeKeyValue("refresh_token", accessToken.getRefreshToken().getValue());
             }
             writeKeyValue("expires_in", accessToken.getExpiresIn());
