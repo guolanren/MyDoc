@@ -130,7 +130,7 @@ public class JsonConfiguration {
         // java.lang.IllegalArgumentException: 'Content-Type' cannot contain wildcard tyoe '*'
         List<MediaType> supportedMediaTypes = new ArrayList<>();
         supportedMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-        fastJsonHttpMessageConverter.setSupportedMediaType(supportedMediaTypes);
+        fastJsonHttpMessageConverter.setSupportedMediaTypes(supportedMediaTypes);
         
         return fastJsonHttpMessageConverter;
     }
